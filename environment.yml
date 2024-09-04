@@ -1,0 +1,13 @@
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11.*
+  - jupyterlab=4.2.*
+  - ipywidgets=8.1.*
+  - python-dotenv=1.0.*
+# [LangChain + LangGraph]
+  - langchain=0.2.*
+  - langchain-community=0.2.*
+  - langchain-google-genai=1.0.*
+  - langgraph=0.1.*
