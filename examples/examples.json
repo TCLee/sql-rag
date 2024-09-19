@@ -1,0 +1,70 @@
+[
+    {
+        "input": "What is the most popular media type among all the tracks?",
+        "query": "SELECT \n    MediaType.Name AS media_type,\n    COUNT(Track.TrackId) AS track_count\nFROM Track\n    INNER JOIN \n        MediaType ON MediaType.MediaTypeId = Track.MediaTypeId\nGROUP BY Track.MediaTypeId\nORDER BY track_count DESC\nLIMIT 3;"
+    },
+    {
+        "input": "What is the total price for the album \"Big Ones\"?",
+        "query": "SELECT \n    Album.Title AS album_title,\n    SUM(Track.UnitPrice) AS album_price\nFROM\n    Track\n    INNER JOIN\n        Album ON Album.AlbumId = Track.AlbumId\nWHERE\n    Album.Title = 'Big Ones'\nGROUP BY\n    Track.AlbumId;"
+    },
+    {
+        "input": "What is the best-selling track of all time?",
+        "query": "SELECT \n    Track.Name AS track_name, \n    SUM(\n        InvoiceLine.Quantity * InvoiceLine.UnitPrice\n    ) AS total_sales\nFROM\n    InvoiceLine\n    INNER JOIN\n        Track ON InvoiceLine.TrackId = Track.TrackId\nGROUP BY \n    InvoiceLine.TrackId\nORDER BY \n    total_sales DESC\nLIMIT 5;"
+    },
+    {
+        "input": "Top 5 best-selling tracks by number of units sold.",
+        "query": "SELECT \n    InvoiceLine.TrackId,\n    Track.Name,\n    SUM(InvoiceLine.Quantity) as total_quantity\nFROM\n    InvoiceLine\n    INNER JOIN\n        Track ON Track.TrackId = InvoiceLine.TrackId\nGROUP BY\n    InvoiceLine.TrackId\nORDER BY\n    total_quantity DESC\nLIMIT 5;"
+    },
+    {
+        "input": "What was the most purchased tracks of 2013?",
+        "query": "SELECT \n    InvoiceLine.TrackId as track_id,\n    Track.Name as track_name,\n    strftime('%Y', Invoice.InvoiceDate) as invoice_year,\n    SUM(InvoiceLine.Quantity) AS total_quantity\nFROM\n    InvoiceLine\n    INNER JOIN\n        Invoice ON Invoice.InvoiceId = InvoiceLine.InvoiceId\n    INNER JOIN\n        Track ON Track.TrackId = InvoiceLine.TrackId\nWHERE\n    invoice_year = '2013'\nGROUP BY\n    InvoiceLine.TrackId\nORDER BY\n    total_sales DESC\nLIMIT 5;"
+    },
+    {
+        "input": "How many albums does \"Iron Maiden\" have?",
+        "query": "SELECT \n    Artist.Name as artist_name,\n    COUNT(Album.AlbumId) AS album_count\nFROM\n    Album\n    INNER JOIN\n        Artist ON Artist.ArtistId = Album.ArtistId\nWHERE\n    Artist.Name = 'Iron Maiden'\nGROUP BY\n    Album.ArtistId;"
+    },
+    {
+        "input": "Find all albums for the artist 'AC/DC'.",
+        "query": "SELECT Album.Title \nFROM Album \nWHERE Album.ArtistId = (\n    SELECT Artist.ArtistId \n    FROM Artist \n    WHERE Artist.Name = 'AC/DC'\n);"
+    },
+    {
+        "input": "List all the tracks in the album with title \"Let There Be Rock\".",
+        "query": "SELECT Track.Name\nFROM Track\nWHERE Track.AlbumId = (\n   SELECT Album.AlbumId\n   FROM Album\n   WHERE Album.Title = 'Let There Be Rock'\n);"
+    },
+    {
+        "input": "How many tracks are there in the album \"Big Ones\"?",
+        "query": "SELECT COUNT(Track.TrackId)\nFROM Track\nWHERE Track.AlbumId = (\n    SELECT Album.AlbumId\n    FROM Album\n    WHERE Album.Title = 'Big Ones'\n);"
+    },
+    {
+        "input": "List 10 tracks in the 'Rock' genre.",
+        "query": "SELECT Track.Name\nFROM Track\n    INNER JOIN Genre ON Genre.GenreId = Track.GenreId\nWHERE Genre.Name = 'Rock' \nLIMIT 10;"
+    },
+    {
+        "input": "Which tracks are added to the most number of playlists?",
+        "query": "SELECT \n    Track.Name AS track_name,\n    COUNT(Track.TrackId) AS track_count\nFROM \n    PlaylistTrack\n    INNER JOIN\n        Playlist ON Playlist.PlaylistId = PlaylistTrack.PlaylistId\n    INNER JOIN\n        Track ON Track.TrackId = PlaylistTrack.TrackId\nGROUP BY\n    Track.TrackId\nORDER BY\n    track_count DESC\nLIMIT 5;"
+    },
+    {
+        "input": "List all customers from Canada.",
+        "query": "SELECT CONCAT(\n    Customer.FirstName, ' ', Customer.LastName\n)\nFROM Customer \nWHERE Customer.Country = 'Canada';"
+    },
+    {
+        "input": "Which country's customers spent the most?",
+        "query": "SELECT \n    Customer.Country AS customer_country,\n    SUM(Invoice.Total) AS total_spent\nFROM\n    Invoice\n    INNER JOIN\n        Customer ON Customer.CustomerId = Invoice.CustomerId\nGROUP BY\n    Customer.Country\nORDER BY\n    total_spent DESC\nLIMIT 1;"
+    },
+    {
+        "input": "Who are the top 5 customers by total purchase?",
+        "query": "SELECT \n    CONCAT(\n        Customer.FirstName, ' ', Customer.LastName\n    ) AS customer_name,\n    Customer.Country,\n    SUM(Invoice.Total) AS total_purchase\nFROM\n    Invoice\n    INNER JOIN\n        Customer ON Customer.CustomerId = Invoice.CustomerId\nGROUP BY Invoice.CustomerId\nORDER BY total_purchase DESC\nLIMIT 5;"
+    },
+    {
+        "input": "Which employee made the most in sales?",
+        "query": "SELECT \n    CONCAT(\n        Employee.FirstName, ' ', Employee.LastName\n    ) AS employee_name,\n    Employee.Title AS job_title,\n    SUM(Invoice.Total) AS total_invoice\nFROM\n    Employee\n    INNER JOIN\n        Customer ON Customer.SupportRepId = Employee.EmployeeId\n    INNER JOIN\n        Invoice ON Invoice.CustomerId = Customer.CustomerId\nGROUP BY\n    Employee.EmployeeId\nORDER BY\n    total_invoice DESC\nLIMIT 1;"
+    },
+    {
+        "input": "Which employee made the most in sales in the year 2009?",
+        "query": "SELECT \n    CONCAT(\n        Employee.FirstName, ' ', Employee.LastName\n    ) AS employee_name,\n    Employee.Title AS job_title,\n    strftime('%Y', Invoice.InvoiceDate) AS invoice_year,\n    SUM(Invoice.Total) AS total_invoice\nFROM\n    Employee\n    INNER JOIN\n        Customer ON Customer.SupportRepId = Employee.EmployeeId\n    INNER JOIN\n        Invoice ON Invoice.CustomerId = Customer.CustomerId\nWHERE \n    invoice_year = '2009'\nGROUP BY\n    Employee.EmployeeId\nORDER BY\n    total_invoice DESC\nLIMIT 1;"
+    },
+    {
+        "input": "How many employees are there?",
+        "query": "SELECT COUNT(Employee.EmployeeId) \nFROM Employee;"
+    }
+]
