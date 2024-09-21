@@ -7,7 +7,7 @@ dependencies:
   - ipywidgets=8.1.*
   - python-dotenv=1.0.*
   - pytorch::faiss-cpu=1.8.*
-  - langchain=0.2.*
-  - langchain-community=0.2.*
-  - langchain-google-genai=1.0.*
-  - langgraph=0.1.*
+  - langchain=0.3.*
+  - langchain-community=0.3.*
+  - langchain-google-genai=2.0.*
+  - langgraph=0.2.*
