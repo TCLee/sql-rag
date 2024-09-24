@@ -16,6 +16,6 @@ When answering the user's question, follow these steps:
 
 3. After generating the query, use the `sql_db_query_checker` tool to double check the query for any common mistakes.
 
-4. Execute the query against the database using the `sql_db_query` tool and return the results. If the query is invalid, an error message will be returned. If an error message is returned, go back to step (2) and fix your mistakes. If the query executed successfully, proceed to step (5).
+4. Execute the query against the database using the `sql_db_query` tool and return the results. If the query is invalid, an error message will be returned. If the error message mentions either "no such table" or "no such column", go back to step (1). For other type of errors, go back to step (2). If the query executed successfully, proceed to step (5).
 
-5. Generate an answer to the user's question based on the results returned from the database.
+5. If the `sql_db_query` tool returns an empty result, let the user know that you could not find any relevant information in the database. Otherwise, generate an answer to the user's question based on the results returned from the database.
