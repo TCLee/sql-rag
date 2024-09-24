@@ -4,15 +4,15 @@
         "query": "SELECT MediaType.Name AS media_type, COUNT(Track.TrackId) AS track_count FROM Track INNER JOIN MediaType ON MediaType.MediaTypeId = Track.MediaTypeId GROUP BY Track.MediaTypeId ORDER BY track_count DESC LIMIT 5;"
     },
     {
-        "question": "What is the total price for the album \"Big Ones\"?",
+        "question": "What is the total price for the album 'Big Ones'?",
         "query": "SELECT Album.Title AS album_title, SUM(Track.UnitPrice) AS album_price FROM Track INNER JOIN Album ON Album.AlbumId = Track.AlbumId WHERE Album.Title = 'Big Ones' GROUP BY Track.AlbumId;"
     },
     {
-        "question": "What is the best-selling track of all time?",
+        "question": "Which tracks made the most in total sales?",
         "query": "SELECT Track.Name AS track_name, SUM( InvoiceLine.Quantity * InvoiceLine.UnitPrice ) AS total_sales FROM InvoiceLine INNER JOIN Track ON InvoiceLine.TrackId = Track.TrackId GROUP BY InvoiceLine.TrackId ORDER BY total_sales DESC LIMIT 5;"
     },
     {
-        "question": "Top 5 best-selling tracks by number of units sold.",
+        "question": "Which tracks sold the most number of units?",
         "query": "SELECT Track.Name, SUM(InvoiceLine.Quantity) AS total_quantity FROM InvoiceLine INNER JOIN Track ON Track.TrackId = InvoiceLine.TrackId GROUP BY InvoiceLine.TrackId ORDER BY total_quantity DESC LIMIT 5;"
     },
     {
@@ -20,7 +20,7 @@
         "query": "SELECT InvoiceLine.TrackId AS track_id, Track.Name AS track_name, strftime('%Y', Invoice.InvoiceDate) AS invoice_year, SUM(InvoiceLine.Quantity) AS total_quantity FROM InvoiceLine INNER JOIN Invoice ON Invoice.InvoiceId = InvoiceLine.InvoiceId INNER JOIN Track ON Track.TrackId = InvoiceLine.TrackId WHERE invoice_year = '2022' GROUP BY InvoiceLine.TrackId ORDER BY total_quantity DESC LIMIT 5;"
     },
     {
-        "question": "How many albums does \"Iron Maiden\" have?",
+        "question": "How many albums does 'Iron Maiden' have?",
         "query": "SELECT Artist.Name AS artist_name, COUNT(Album.AlbumId) AS album_count FROM Album INNER JOIN Artist ON Artist.ArtistId = Album.ArtistId WHERE Artist.Name = 'Iron Maiden' GROUP BY Album.ArtistId;"
     },
     {
@@ -28,11 +28,11 @@
         "query": "SELECT Album.Title AS album_title, Artist.Name AS artist_name FROM Album INNER JOIN Artist ON Artist.ArtistId = Album.ArtistId WHERE Artist.Name = 'AC/DC';"
     },
     {
-        "question": "List all the tracks in the album with title \"Let There Be Rock\".",
+        "question": "List all the tracks in the album with title 'Let There Be Rock'.",
         "query": "SELECT Track.Name FROM Track WHERE Track.AlbumId = ( SELECT Album.AlbumId FROM Album WHERE Album.Title = 'Let There Be Rock' );"
     },
     {
-        "question": "How many tracks are there in the album \"Big Ones\"?",
+        "question": "How many tracks are there in the album 'Big Ones'?",
         "query": "SELECT Album.Title AS album_title, COUNT(Track.TrackId) AS track_count FROM Track INNER JOIN Album ON Album.AlbumId = Track.AlbumId WHERE Album.Title = 'Big Ones';"
     },
     {

@@ -12,7 +12,7 @@ ORDER BY track_count DESC
 LIMIT 5;
 
 /*
-What is the total price for the album "Big Ones"?
+What is the total price for the album 'Big Ones'?
 */
 SELECT 
     Album.Title AS album_title,
@@ -27,7 +27,7 @@ GROUP BY
     Track.AlbumId;
 
 /*
-What is the best-selling track of all time?
+Which tracks made the most in total sales?
 */
 SELECT 
     Track.Name AS track_name, 
@@ -45,7 +45,7 @@ ORDER BY
 LIMIT 5;
 
 /*
-Top 5 best-selling tracks by number of units sold.
+Which tracks sold the most number of units?
 */
 SELECT     
     Track.Name,
@@ -83,7 +83,7 @@ ORDER BY
 LIMIT 5;
 
 /*
-How many albums does "Iron Maiden" have?
+How many albums does 'Iron Maiden' have?
 */
 SELECT 
     Artist.Name AS artist_name,
@@ -111,7 +111,7 @@ WHERE
 	Artist.Name = 'AC/DC';
 
 /*
-List all the tracks in the album with title "Let There Be Rock".
+List all the tracks in the album with title 'Let There Be Rock'.
 */
 SELECT Track.Name
 FROM Track
@@ -122,7 +122,7 @@ WHERE Track.AlbumId = (
 );
 
 /*
-How many tracks are there in the album "Big Ones"?
+How many tracks are there in the album 'Big Ones'?
 */
 SELECT 
 	Album.Title AS album_title,
