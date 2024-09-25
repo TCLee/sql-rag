@@ -1,33 +1,41 @@
-# Multi-Agent Collaboration
+# Build a RAG application over a SQL database
 
 ## Overview
 
-A single agent can usually perform well using a small set of tools to solve a specific problem. However, even powerful models like GPT-4 may struggle when given many different tools to solve a complex problem.
+In the [notebook](sql-rag.ipynb), we will see how to build a RAG application that allows a LLM to do question answering over a SQL database (or relational database).
 
-One way to approach complicated tasks is through a _"divide-and-conquer"_ approach. Create a specialized agent for each task and route tasks to the correct _"expert"_.
+At a high-level, the steps of the system are:
 
-In this [notebook](multi-agent-collab.ipynb), we will see how two agents, each given different tools, can work together to solve a problem that requires the use of all available tools.
+1. **Convert question to SQL query**: Model converts user's natural language question to a syntatically valid SQL query.
+2. **Execute SQL query**: Model invokes a tool to execute the SQL query.
+3. **Answer the question**: Model synthesizes an answer to the user's question using the database query results.
 
-The code in the notebook is adapted from the LangGraph tutorial: 
-[Multi-agent Collaboration](https://langchain-ai.github.io/langgraph/tutorials/multi_agent/multi-agent-collaboration/).
+![Convert user's question to SQL](img/sql_usecase.png "Convert user's question to SQL")
+**Figure 1**: Image from [LangChain tutorial](https://python.langchain.com/docs/tutorials/sql_qa/#architecture)
+
+In the notebook, we will explore two ways of building the system. One using chains with LangChain and another using an agent with LangGraph.
+
+The code in this notebook is adapted from the LangChain tutorial: [Build a Question/Answering system over SQL data](https://python.langchain.com/docs/tutorials/sql_qa).
 
 
 ## Setup
 
 ### Git
+
 Clone this repository to your local computer by running:
 
 ```zsh
-git clone https://github.com/TCLee/multi-agent-collab
+git clone https://github.com/TCLee/sql-rag
 ```
 
 ### Conda
+
 1. You will need conda in order to install the required packages to run the notebook. [Installing conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html).
 
 2. Make sure the current working directory is this cloned project's directory:
 
    ```zsh
-   cd /path/to/multi-agent-collab
+   cd /path/to/sql-rag
    ```
    
 3. Create the environment from the 
@@ -37,7 +45,7 @@ git clone https://github.com/TCLee/multi-agent-collab
     conda env create -f environment.yml -p ./env
     ```
 
-    This will create a new environment in a subdirectory of the project directory called `env`, (i.e., `project-dir/env`)
+    This will create a new environment in a subdirectory of the project directory called `env`, (e.g., `/path/to/sql-rag/env`)
 
 4. Activate the environment: 
 
@@ -46,12 +54,13 @@ git clone https://github.com/TCLee/multi-agent-collab
     ```
 
 ### Environment variables
+
 This project makes use of 
 [python-dotenv](https://github.com/theskumar/python-dotenv)
 to load in the environment variables from a `.env` file.
 
 Create a `.env` file in the root directory of this cloned repository
-(i.e., `project-dir/.env`):
+(e.g., `/path/to/sql-rag/.env`). Fill in the following with your own API keys:
 
 ```Dotenv
 # Google Gemini API
@@ -61,13 +70,11 @@ GOOGLE_API_KEY="your-google-secret-key"
 # under the hood of LangGraph and LangChain.
 LANGSMITH_API_KEY="your-langsmith-secret-key"
 LANGCHAIN_TRACING_V2="true"
-LANGCHAIN_PROJECT="Multi-Agent Collaboration"
+LANGCHAIN_PROJECT="SQL RAG"
 ```
 
-Fill it in with your own API keys.
-
 #### Google Gemini
-The LLM that we will use in the notebook is Google's **Gemini 1.5 Flash**. It is fast and it offers a generous free tier for us to play around with.
+The LLM that we will use in the notebook is Google's [Gemini 1.5 Flash](https://ai.google.dev/gemini-api/docs). It is fast and it offers a generous free tier for us to play around with.
 
 To use the Gemini API, you'll need an API key. If you do not already have one, create a key in Google AI Studio.
 
@@ -87,5 +94,5 @@ jupyter lab
 ```
 
 In Jupyter Lab, open the notebook 
-[`multi-agent-collab.ipynb`](multi-agent-collab.ipynb) 
+[`sql-rag.ipynb`](sql-rag.ipynb) 
 and follow the instructions there.
