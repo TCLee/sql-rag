@@ -18,6 +18,15 @@ In the notebook, we will explore two ways of building the system. One using chai
 The code in this notebook is adapted from the LangChain tutorial: [Build a Question/Answering system over SQL data](https://python.langchain.com/docs/tutorials/sql_qa).
 
 
+## Project Directory Structure
+
+Directory | Description
+:--- | :---
+`db` | Contains the sample database and the SQL script to re-create the sample database.
+`examples` | Contains SQL examples used for few-shot prompting. Includes a notebook that shows how to convert SQL examples to JSON.
+`prompts` | Contains prompt templates for the LLM
+`img` | Contains images used in the notebook
+
 ## Setup
 
 ### Git
